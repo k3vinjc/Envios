@@ -5,6 +5,8 @@
  */
 package com.gt.envios;
 
+import com.gt.svc.envioSvc;
+import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -16,11 +18,13 @@ import javax.jws.WebParam;
 @WebService(serviceName = "envios")
 public class envios {
 
+    @Inject
+    envioSvc enviosvc;
     /**
      * This is a sample web service operation
      */
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
+        return "Hello " + txt + " !"+enviosvc.findAllModel().size();
     }
 }
