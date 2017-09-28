@@ -20,7 +20,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class envioDaoImpl implements enviosDao{
     
-    @PersistenceContext(unitName = "com.gt_enviios_ws")
+    @PersistenceContext(unitName = "com.gt_envios_ws")
     private EntityManager em;
     
     @Override
