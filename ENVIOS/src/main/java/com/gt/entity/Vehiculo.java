@@ -25,18 +25,22 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Erick Sandoval (kerikeden29@gmail.com)
  */
 @Entity
-@Table(name = "marca_modelo")
+@Table(name = "vehiculo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MarcaModelo.findAll", query = "SELECT m FROM MarcaModelo m"),
-    @NamedQuery(name = "MarcaModelo.findByDbid", query = "SELECT m FROM MarcaModelo m WHERE m.dbid = :dbid")})
-public class MarcaModelo implements Serializable {
+    @NamedQuery(name = "Vehiculo.findAll", query = "SELECT v FROM Vehiculo v"),
+    @NamedQuery(name = "Vehiculo.findByDbid", query = "SELECT v FROM Vehiculo v WHERE v.dbid = :dbid"),
+    @NamedQuery(name = "Vehiculo.findByPrecio", query = "SELECT v FROM Vehiculo v WHERE v.precio = :precio")})
+public class Vehiculo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "dbid")
     private Integer dbid;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "precio")
+    private Double precio;
     @JoinColumn(name = "marca", referencedColumnName = "dbid")
     @ManyToOne(optional = false)
     private Marca marca;
@@ -44,10 +48,10 @@ public class MarcaModelo implements Serializable {
     @ManyToOne(optional = false)
     private ModeloVehiculo modelo;
 
-    public MarcaModelo() {
+    public Vehiculo() {
     }
 
-    public MarcaModelo(Integer dbid) {
+    public Vehiculo(Integer dbid) {
         this.dbid = dbid;
     }
 
@@ -57,6 +61,14 @@ public class MarcaModelo implements Serializable {
 
     public void setDbid(Integer dbid) {
         this.dbid = dbid;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
     public Marca getMarca() {
@@ -85,10 +97,10 @@ public class MarcaModelo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MarcaModelo)) {
+        if (!(object instanceof Vehiculo)) {
             return false;
         }
-        MarcaModelo other = (MarcaModelo) object;
+        Vehiculo other = (Vehiculo) object;
         if ((this.dbid == null && other.dbid != null) || (this.dbid != null && !this.dbid.equals(other.dbid))) {
             return false;
         }
@@ -97,7 +109,7 @@ public class MarcaModelo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.gt.entity.MarcaModelo[ dbid=" + dbid + " ]";
+        return "com.gt.entity.Vehiculo[ dbid=" + dbid + " ]";
     }
 
 }

@@ -46,7 +46,7 @@ public class ModeloVehiculo implements Serializable {
     @Column(name = "anio")
     private int anio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modelo")
-    private List<MarcaModelo> marcaModeloList;
+    private List<Vehiculo> vehiculoList;
 
     public ModeloVehiculo() {
     }
@@ -77,12 +77,12 @@ public class ModeloVehiculo implements Serializable {
     }
 
     @XmlTransient
-    public List<MarcaModelo> getMarcaModeloList() {
-        return marcaModeloList;
+    public List<Vehiculo> getVehiculoList() {
+        return vehiculoList;
     }
 
-    public void setMarcaModeloList(List<MarcaModelo> marcaModeloList) {
-        this.marcaModeloList = marcaModeloList;
+    public void setVehiculoList(List<Vehiculo> vehiculoList) {
+        this.vehiculoList = vehiculoList;
     }
 
     @Override
