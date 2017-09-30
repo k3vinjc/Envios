@@ -7,7 +7,9 @@
 package com.gt.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * 
@@ -34,7 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Linea.findByDbid", query = "SELECT l FROM Linea l WHERE l.dbid = :dbid"),
     @NamedQuery(name = "Linea.findByNombre", query = "SELECT l FROM Linea l WHERE l.nombre = :nombre"),
     @NamedQuery(name = "Linea.findByFactor", query = "SELECT l FROM Linea l WHERE l.factor = :factor"),
-    @NamedQuery(name = "Linea.findByPeso", query = "SELECT l FROM Linea l WHERE l.peso = :peso")})
+    @NamedQuery(name = "Linea.findByPeso", query = "SELECT l FROM Linea l WHERE l.peso = :peso"),
+    @NamedQuery(name = "Linea.findByPrecio", query = "SELECT l FROM Linea l WHERE l.precio = :precio")})
 public class Linea implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,6 +58,10 @@ public class Linea implements Serializable {
     private Double factor;
     @Column(name = "peso")
     private Double peso;
+    @Column(name = "precio")
+    private Double precio;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "linea")
+    private List<Vehiculo> vehiculoList;
     @JoinColumn(name = "marca", referencedColumnName = "dbid")
     @ManyToOne(optional = false)
     private Marca marca;
@@ -98,6 +108,24 @@ public class Linea implements Serializable {
 
     public void setPeso(Double peso) {
         this.peso = peso;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public List<Vehiculo> getVehiculoList() {
+        return vehiculoList;
+    }
+
+    public void setVehiculoList(List<Vehiculo> vehiculoList) {
+        this.vehiculoList = vehiculoList;
     }
 
     public Marca getMarca() {

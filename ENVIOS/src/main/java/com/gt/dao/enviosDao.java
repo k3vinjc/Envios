@@ -5,7 +5,7 @@
  */
 package com.gt.dao;
 
-import com.gt.entity.ModeloVehiculo;
+import com.gt.dto.InformacionVehiculo;
 import java.util.List;
 
 /**
@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface enviosDao {
     
-    public List<ModeloVehiculo> findAllModel();
+    public List<InformacionVehiculo> findAllVehiculo();
     
 }

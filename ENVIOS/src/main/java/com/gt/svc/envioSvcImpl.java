@@ -7,7 +7,8 @@
 package com.gt.svc;
 
 import com.gt.dao.enviosDao;
-import com.gt.entity.ModeloVehiculo;
+import com.gt.dto.InformacionVehiculo;
+import com.gt.dto.Response_Info_Vehiculos;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,8 +24,21 @@ public class envioSvcImpl implements envioSvc{
     enviosDao enviosdao;
 
     @Override
-    public List<ModeloVehiculo> findAllModel() {
-        return enviosdao.findAllModel();
+    public  Response_Info_Vehiculos findAllVehiculo() {
+        Response_Info_Vehiculos retorno;
+        List<InformacionVehiculo> datos = enviosdao.findAllVehiculo();
+        if(datos != null){
+            retorno= new Response_Info_Vehiculos();
+            retorno.setVehiculos(datos);
+            retorno.setStatus(0);
+            retorno.setDescripcion("Exitoso");
+        }else{
+            retorno= new Response_Info_Vehiculos();
+            retorno.setStatus(1);
+            retorno.setDescripcion("Error con la conexión a la BD de Envios");
+        }
+        
+        return retorno;
     }
 
 }

@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * 
@@ -48,11 +49,7 @@ public class Marca implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca")
-    private List<Vehiculo> vehiculoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca")
     private List<Linea> lineaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca")
-    private List<LocacionVehiculo> locacionVehiculoList;
 
     public Marca() {
     }
@@ -83,30 +80,13 @@ public class Marca implements Serializable {
     }
 
     @XmlTransient
-    public List<Vehiculo> getVehiculoList() {
-        return vehiculoList;
-    }
-
-    public void setVehiculoList(List<Vehiculo> vehiculoList) {
-        this.vehiculoList = vehiculoList;
-    }
-
-    @XmlTransient
+    @JsonIgnore
     public List<Linea> getLineaList() {
         return lineaList;
     }
 
     public void setLineaList(List<Linea> lineaList) {
         this.lineaList = lineaList;
-    }
-
-    @XmlTransient
-    public List<LocacionVehiculo> getLocacionVehiculoList() {
-        return locacionVehiculoList;
-    }
-
-    public void setLocacionVehiculoList(List<LocacionVehiculo> locacionVehiculoList) {
-        this.locacionVehiculoList = locacionVehiculoList;
     }
 
     @Override

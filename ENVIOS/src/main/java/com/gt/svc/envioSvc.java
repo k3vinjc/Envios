@@ -5,7 +5,7 @@
  */
 package com.gt.svc;
 
-import com.gt.entity.ModeloVehiculo;
+import com.gt.dto.Response_Info_Vehiculos;
 import java.util.List;
 
 /**
@@ -13,6 +13,6 @@ import java.util.List;
  * @author Erick Sandoval (kerikeden29@gmail.com)
  */
 public interface envioSvc {
-    public List<ModeloVehiculo> findAllModel();
+    public  Response_Info_Vehiculos findAllVehiculo();
     
 }

@@ -40,9 +40,9 @@ public class LocacionVehiculo implements Serializable {
     @JoinColumn(name = "pais", referencedColumnName = "dbid")
     @ManyToOne(optional = false)
     private Pais pais;
-    @JoinColumn(name = "marca", referencedColumnName = "dbid")
-    @ManyToOne(optional = false)
-    private Marca marca;
+    @JoinColumn(name = "vehiculo", referencedColumnName = "dbid")
+    @ManyToOne
+    private Vehiculo vehiculo;
 
     public LocacionVehiculo() {
     }
@@ -67,12 +67,12 @@ public class LocacionVehiculo implements Serializable {
         this.pais = pais;
     }
 
-    public Marca getMarca() {
-        return marca;
+    public Vehiculo getVehiculo() {
+        return vehiculo;
     }
 
-    public void setMarca(Marca marca) {
-        this.marca = marca;
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
     @Override

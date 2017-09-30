@@ -7,6 +7,7 @@
 package com.gt.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * 
@@ -30,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Vehiculo.findAll", query = "SELECT v FROM Vehiculo v"),
     @NamedQuery(name = "Vehiculo.findByDbid", query = "SELECT v FROM Vehiculo v WHERE v.dbid = :dbid"),
-    @NamedQuery(name = "Vehiculo.findByPrecio", query = "SELECT v FROM Vehiculo v WHERE v.precio = :precio")})
+    @NamedQuery(name = "Vehiculo.findByAnio", query = "SELECT v FROM Vehiculo v WHERE v.anio = :anio")})
 public class Vehiculo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,15 +42,13 @@ public class Vehiculo implements Serializable {
     @Basic(optional = false)
     @Column(name = "dbid")
     private Integer dbid;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "precio")
-    private Double precio;
-    @JoinColumn(name = "marca", referencedColumnName = "dbid")
+    @Column(name = "anio")
+    private Integer anio;
+    @JoinColumn(name = "linea", referencedColumnName = "dbid")
     @ManyToOne(optional = false)
-    private Marca marca;
-    @JoinColumn(name = "modelo", referencedColumnName = "dbid")
-    @ManyToOne(optional = false)
-    private ModeloVehiculo modelo;
+    private Linea linea;
+    @OneToMany(mappedBy = "vehiculo")
+    private List<LocacionVehiculo> locacionVehiculoList;
 
     public Vehiculo() {
     }
@@ -63,28 +65,30 @@ public class Vehiculo implements Serializable {
         this.dbid = dbid;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public Integer getAnio() {
+        return anio;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setAnio(Integer anio) {
+        this.anio = anio;
     }
 
-    public Marca getMarca() {
-        return marca;
+    public Linea getLinea() {
+        return linea;
     }
 
-    public void setMarca(Marca marca) {
-        this.marca = marca;
+    public void setLinea(Linea linea) {
+        this.linea = linea;
     }
 
-    public ModeloVehiculo getModelo() {
-        return modelo;
+    @XmlTransient
+    @JsonIgnore
+    public List<LocacionVehiculo> getLocacionVehiculoList() {
+        return locacionVehiculoList;
     }
 
-    public void setModelo(ModeloVehiculo modelo) {
-        this.modelo = modelo;
+    public void setLocacionVehiculoList(List<LocacionVehiculo> locacionVehiculoList) {
+        this.locacionVehiculoList = locacionVehiculoList;
     }
 
     @Override
