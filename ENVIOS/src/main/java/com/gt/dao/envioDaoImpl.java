@@ -7,6 +7,7 @@ package com.gt.dao;
 
 import com.gt.dto.InformacionVehiculo;
 import com.gt.entity.Pais;
+import com.gt.entity.Transferencia;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -51,5 +52,29 @@ public class envioDaoImpl implements enviosDao {
         }
 
     }
+
+    @Override
+    public Transferencia findByIdTransferencia(int id_Transferencia) {
+        try{
+            StringBuilder sql = new StringBuilder("select * from transferencia t \n");
+            sql.append("where exists(select * from transferencia t where t.id_Transferencia= #idtransfer) \n");
+            Query runsql = em.createNativeQuery(sql.toString(),Transferencia.class);
+            runsql.setParameter("idtransfer", id_Transferencia);
+            return (Transferencia) runsql.getSingleResult();
+        }catch(NoResultException ex){
+            return null;
+        }
+    }
+
+    @Override
+    public Transferencia create(Transferencia newt) {
+        
+        em.persist(newt);
+        em.flush();
+        return newt;
+        
+    }
+
+    
 
 }

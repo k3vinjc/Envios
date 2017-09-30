@@ -9,7 +9,9 @@ import com.gt.dao.enviosDao;
 import com.gt.dto.InformacionVehiculo;
 import com.gt.dto.Response_Cost_Viaje;
 import com.gt.dto.Response_Info_Vehiculos;
+import com.gt.dto.Response_transaction;
 import com.gt.entity.Pais;
+import com.gt.entity.Transferencia;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -184,6 +186,35 @@ public class envioSvcImpl implements envioSvc {
             retorno = new Response_Cost_Viaje();
             retorno.setStatus(1);
             retorno.setDescripcion("Error con la conexión a la BD de Envios");
+        }
+        return retorno;
+    }
+
+    @Override
+    public Response_transaction create(int id_Transferencia, double monto) {
+
+        Transferencia tem = enviosdao.findByIdTransferencia(id_Transferencia);
+        Response_transaction retorno;
+        if (tem == null) {
+            Transferencia newt = new Transferencia();
+            newt.setIdTransferencia(id_Transferencia);
+            newt.setMonto(monto);
+            Transferencia resp = enviosdao.create(newt);
+            if (resp != null) {
+                retorno = new Response_transaction();
+                retorno.setDescripcion("Exitoso");
+                retorno.setStatus(0);
+            } else {
+                retorno = new Response_transaction();
+                retorno.setDescripcion("Error al almacenar en la base de datos");
+                retorno.setStatus(0);
+                
+            }
+
+        } else {
+            retorno = new Response_transaction();
+            retorno.setDescripcion("Ya existe la transfericia");
+            retorno.setStatus(1);
         }
         return retorno;
     }
