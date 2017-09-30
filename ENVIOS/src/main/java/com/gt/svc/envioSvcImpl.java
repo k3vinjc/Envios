@@ -62,7 +62,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "SV": {
-                            int numero = (int) (Math.random() * 3900) + 1;
+                            int numero = (int) (Math.random() * 3900) + 3825;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -71,7 +71,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "HN": {
-                            int numero = (int) (Math.random() * 3900) + 1;
+                            int numero = (int) (Math.random() * 3900) + 3825;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -80,7 +80,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "NI": {
-                            int numero = (int) (Math.random() * 4000) + 1;
+                            int numero = (int) (Math.random() * 4000) + 3900;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -89,7 +89,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "MX": {
-                            int numero = (int) (Math.random() * 3200) + 1;
+                            int numero = (int) (Math.random() * 3825) + 3200;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -124,7 +124,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "SV": {
-                            int numero = (int) (Math.random() * 3900) + 1;
+                            int numero = (int) (Math.random() * 3900) + 3825;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -133,7 +133,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "HN": {
-                            int numero = (int) (Math.random() * 3900) + 1;
+                            int numero = (int) (Math.random() * 3900) + 3825;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -142,7 +142,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "NI": {
-                            int numero = (int) (Math.random() * 4000) + 1;
+                            int numero = (int) (Math.random() * 4000) + 3900;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
@@ -151,7 +151,7 @@ public class envioSvcImpl implements envioSvc {
                             break;
                         }
                         case "MX": {
-                            int numero = (int) (Math.random() * 3200) + 1;
+                            int numero = (int) (Math.random() * 3825) + 3200;
                             int precio = constante + numero;
                             retorno = new Response_Cost_Viaje();
                             retorno.setCosto_viaje(precio);
