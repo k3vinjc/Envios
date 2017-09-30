@@ -6,6 +6,7 @@
 package com.gt.dao;
 
 import com.gt.dto.InformacionVehiculo;
+import com.gt.entity.Pais;
 import java.util.List;
 
 /**
@@ -15,5 +16,6 @@ import java.util.List;
 public interface enviosDao {
     
     public List<InformacionVehiculo> findAllVehiculo();
+    public Pais findOriginPai(int id_Vehiculo);
     
 }

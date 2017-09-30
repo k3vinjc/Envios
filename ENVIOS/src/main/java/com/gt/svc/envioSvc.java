@@ -5,8 +5,8 @@
  */
 package com.gt.svc;
 
+import com.gt.dto.Response_Cost_Viaje;
 import com.gt.dto.Response_Info_Vehiculos;
-import java.util.List;
 
 /**
  *
@@ -14,5 +14,6 @@ import java.util.List;
  */
 public interface envioSvc {
     public  Response_Info_Vehiculos findAllVehiculo();
+    public Response_Cost_Viaje calcular_Costo_Viaje(int id_Vehiculo,String pais_Destino);
     
 }

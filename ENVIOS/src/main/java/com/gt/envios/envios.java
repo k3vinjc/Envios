@@ -7,6 +7,7 @@ package com.gt.envios;
 
 import com.gt.svc.envioSvc;
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -36,6 +37,19 @@ public class envios {
         String jsonStr="";
         try {
             jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(enviosvc.findAllVehiculo());
+        } catch (IOException ex) {
+            Logger.getLogger(envios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return jsonStr;
+    }
+    @WebMethod(operationName = "calcular_Costo_Viaje")
+    public String costo_Viaje(@WebParam(name="id_Vehiculo") int id_Vehiculo ,@WebParam(name = "pais_Destino") String pais_Destino) {
+        
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+        String jsonStr="";
+        try {
+            jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(enviosvc.calcular_Costo_Viaje(id_Vehiculo, pais_Destino));
         } catch (IOException ex) {
             Logger.getLogger(envios.class.getName()).log(Level.SEVERE, null, ex);
         }
