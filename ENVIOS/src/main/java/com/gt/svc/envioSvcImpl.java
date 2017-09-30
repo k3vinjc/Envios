@@ -49,7 +49,6 @@ public class envioSvcImpl implements envioSvc {
         Response_Cost_Viaje retorno;
         Pais p = enviosdao.findOriginPai(id_Vehiculo);
         if (p != null) {
-            System.out.println(p.getCodigo());
             switch (p.getCodigo()) { //pais origen
                 case "US": {
                     int constante = 5355;

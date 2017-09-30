@@ -39,12 +39,11 @@ public class envioDaoImpl implements enviosDao {
 
     @Override
     public Pais findOriginPai(int id_Vehiculo) {
-        System.out.println("param-->"+id_Vehiculo);
         try {
             StringBuilder sql = new StringBuilder("select p.* from locacion_vehiculo lv, pais p \n");
             sql.append("where lv.pais = p.dbid \n");
             sql.append("and lv.vehiculo = #idvehi");
-            Query runsql = em.createNativeQuery(sql.toString(),Pais.class);
+            Query runsql = em.createNativeQuery(sql.toString(), Pais.class);
             runsql.setParameter("idvehi", id_Vehiculo);
             return (Pais) runsql.getSingleResult();
         } catch (NoResultException ex) {
@@ -55,26 +54,24 @@ public class envioDaoImpl implements enviosDao {
 
     @Override
     public Transferencia findByIdTransferencia(int id_Transferencia) {
-        try{
-            StringBuilder sql = new StringBuilder("select * from transferencia t \n");
-            sql.append("where exists(select * from transferencia t where t.id_Transferencia= #idtransfer) \n");
-            Query runsql = em.createNativeQuery(sql.toString(),Transferencia.class);
+        try {
+            StringBuilder sql = new StringBuilder("select t.* from transferencia t \n");
+            sql.append("where t.id_Transferencia = #idtransfer \n");
+            Query runsql = em.createNativeQuery(sql.toString(), Transferencia.class);
             runsql.setParameter("idtransfer", id_Transferencia);
             return (Transferencia) runsql.getSingleResult();
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
             return null;
         }
     }
 
     @Override
     public Transferencia create(Transferencia newt) {
-        
+
         em.persist(newt);
         em.flush();
         return newt;
-        
-    }
 
-    
+    }
 
 }
