@@ -7,6 +7,7 @@ package com.mycompany.envios;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
@@ -30,6 +31,78 @@ public class MySqlHanddler {
             retorno=1;
         }catch(Exception e){
             retorno=0; //error
+        }
+        return retorno;
+    }
+    
+    public int ExistePais(String nombre){
+        int retorno=0;
+        try{
+            Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
+            Statement stmt=Coneccion.createStatement();  
+            ResultSet rs=stmt.executeQuery("select * from pais where nombre='"+nombre+"'");
+            while(rs.next())
+                retorno=1;
+            Coneccion.close();  
+        }catch(Exception e){
+            retorno=0; //error
+        }
+        return retorno;
+    }
+    
+    public int Existeid(Vehiculo vehiculo){
+        int retorno=0;
+        try{
+            Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
+            Statement stmt=Coneccion.createStatement();  
+            ResultSet rs=stmt.executeQuery("select * from vehiculo_Existente where dbid="+vehiculo.getid());
+            while(rs.next())
+                retorno=1;
+            Coneccion.close();  
+        }catch(Exception e){
+            retorno=0; //error
+        }
+        return retorno;
+    }
+    public double Costo_Base(Vehiculo vehiculo){
+        double retorno=0.0;
+        try{
+            Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
+            Statement stmt=Coneccion.createStatement();  
+            ResultSet rs=stmt.executeQuery("select precio_Base from vehiculo_Existente where dbid="+vehiculo.getid());
+            while(rs.next())
+                retorno=rs.getDouble(1);
+            Coneccion.close();  
+        }catch(Exception e){
+            retorno=0.0; //error
+        }
+        return retorno;
+    }
+    public double Peso(Vehiculo vehiculo){
+        double retorno=0.0;
+        try{
+            Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
+            Statement stmt=Coneccion.createStatement();  
+            ResultSet rs=stmt.executeQuery("select peso from vehiculo_Existente inner join vehiculo on vehiculo_Existente.vehiculo=vehiculo.dbid where vehiculo_Existente.dbid="+vehiculo.getid());
+            while(rs.next())
+                retorno=rs.getDouble(1);
+            Coneccion.close();  
+        }catch(Exception e){
+            retorno=0.0; //error
+        }
+        return retorno;
+    }
+    public double FactorPais(String nombre){
+        double retorno=0.0;
+        try{
+            Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
+            Statement stmt=Coneccion.createStatement();  
+            ResultSet rs=stmt.executeQuery("select factor from factor_Envio inner join pais as Origen on factor_Envio.pais_Origen=Origen.dbid inner join pais as Destino on factor_Envio.pais_Destino=Destino.dbid where Origen.nombre='"+nombre+"' and Destino.nombre='Guatemala'");
+            while(rs.next())
+                retorno=rs.getDouble(1);
+            Coneccion.close();  
+        }catch(Exception e){
+            retorno=0.0; //error
         }
         return retorno;
     }
