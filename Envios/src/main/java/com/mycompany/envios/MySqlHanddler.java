@@ -93,7 +93,7 @@ public class MySqlHanddler {
         return retorno;
     }
     public double FactorPais(String nombre){
-        double retorno=0.0;
+        double retorno=10.0;
         try{
             Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
             Statement stmt=Coneccion.createStatement();  
