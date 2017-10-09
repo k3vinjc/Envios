@@ -31,21 +31,21 @@ public class Envios {
             int coneccion=transferencia.Coneccion();
             if(coneccion==0){
                 ((ObjectNode) rootNode).put("status", 1);
-                ((ObjectNode) rootNode).put("descripción", "No se pudo conectar a la base de datos");
+                ((ObjectNode) rootNode).put("descripcion", "No se pudo conectar a la base de datos");
             }else{
                 int Ingreso=transferencia.IngresarTransferencia();
                 if(Ingreso==0){
                     ((ObjectNode) rootNode).put("status", 1);
-                    ((ObjectNode) rootNode).put("descripción", "No se pudo conectar a la base de datos");
+                    ((ObjectNode) rootNode).put("descripcion", "No se pudo conectar a la base de datos");
                 }else{
                     ((ObjectNode) rootNode).put("status", 0);
-                    ((ObjectNode) rootNode).put("descripción", "Exitoso");
+                    ((ObjectNode) rootNode).put("descripcion", "Exitoso");
                 }
             }
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
         }else{
             ((ObjectNode) rootNode).put("status", 1);
-            ((ObjectNode) rootNode).put("descripción", "Los parametros son incorrectos");
+            ((ObjectNode) rootNode).put("descripcion", "Los parametros son incorrectos");
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
         }
     }
@@ -62,30 +62,30 @@ public class Envios {
             if(coneccion==0 || MSQ.Conectar()==0 ){
                 ((ObjectNode) rootNode).put("costo_viaje", 0.0);
                 ((ObjectNode) rootNode).put("status", 1);
-                ((ObjectNode) rootNode).put("descripción", "No se pudo conectar a la base de datos");
+                ((ObjectNode) rootNode).put("descripcion", "No se pudo conectar a la base de datos");
             }else{
                 if(vehiculo.Existeid()==0){
                     ((ObjectNode) rootNode).put("costo_viaje", 0.0);
                     ((ObjectNode) rootNode).put("status", 1);
-                    ((ObjectNode) rootNode).put("descripción", "No existe el id del vehiculo");
+                    ((ObjectNode) rootNode).put("descripcion", "No existe el id del vehiculo");
                 }else if(MSQ.ExistePais(pais_Destino)==0){
                     ((ObjectNode) rootNode).put("costo_viaje", 0.0);
                     ((ObjectNode) rootNode).put("status", 1);
-                    ((ObjectNode) rootNode).put("descripción", "El pais destino no existe");
+                    ((ObjectNode) rootNode).put("descripcion", "El pais destino no existe");
                 }else{
                     double factor=MSQ.FactorPais(pais_Destino);
                     double peso=vehiculo.peso();
                     double Costo_Basico=vehiculo.Costo_Basico();
                     ((ObjectNode) rootNode).put("costo_viaje", Double.parseDouble(df.format(Costo_Basico+(factor*peso))));
                     ((ObjectNode) rootNode).put("status", 0);
-                    ((ObjectNode) rootNode).put("descripción", "Exitoso");
+                    ((ObjectNode) rootNode).put("descripcion", "Exitoso");
                 }
             }
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
         }else{
             ((ObjectNode) rootNode).put("costo_viaje", 0.0);
             ((ObjectNode) rootNode).put("status", 1);
-            ((ObjectNode) rootNode).put("descripción", "Los parametros son incorrectos");
+            ((ObjectNode) rootNode).put("descripcion", "Los parametros son incorrectos");
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
         }
     }
