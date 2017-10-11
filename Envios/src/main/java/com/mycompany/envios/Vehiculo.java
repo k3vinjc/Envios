@@ -11,10 +11,25 @@ package com.mycompany.envios;
  */
 public class Vehiculo {
     private int id;
-    MySqlHanddler MSH;
+    private MySqlHanddler MSH;
+     String marca;
+    String linea;
+     int modelo;
+     String pais_Origen;
+     double precio_Vehiculo;
     public Vehiculo(int id){
         this.id=id;
         MSH=new MySqlHanddler();
+    }
+    
+    public Vehiculo(int id, String marca, String linea, int modelo, String pais_Origen, double precio_Vehiculo){
+        MSH=new MySqlHanddler();
+        this.id=id;
+        this.marca=marca;
+        this.linea=linea;
+        this.modelo=modelo;
+        this.pais_Origen=pais_Origen;
+        this.precio_Vehiculo=precio_Vehiculo;
     }
     
     public int getid(){

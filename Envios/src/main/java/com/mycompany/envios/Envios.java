@@ -8,8 +8,11 @@ package com.mycompany.envios;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -88,5 +91,38 @@ public class Envios {
             ((ObjectNode) rootNode).put("descripcion", "Los parametros son incorrectos");
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
         }
+    }
+    @WebMethod(operationName = "cargar_Vehiculos")
+    public String cargar_Vehiculos() throws JsonProcessingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.createObjectNode();
+        DecimalFormat df = new DecimalFormat("#.00"); 
+            MySqlHanddler MSQ=new MySqlHanddler();
+            if(MSQ.Conectar()==0 ){
+                ((ObjectNode) rootNode).put("vehiculos", "");
+                ((ObjectNode) rootNode).put("status", 1);
+                ((ObjectNode) rootNode).put("descripcion", "No se pudo conectar a la base de datos");
+            }else{
+                List<Vehiculo> Vehiculos=MSQ.CargarVehiculo();
+                String CadenaVehiculos="[";
+                for(int x=0;x<Vehiculos.size();x++){
+                    CadenaVehiculos+="{\"id_Vehiculo\":"+Vehiculos.get(x).getid()+",\"marca\":\""+Vehiculos.get(x).marca+"\", \"linea\":\""+Vehiculos.get(x).linea+"\",\"modelo\":"+Vehiculos.get(x).modelo+", \"pais_Origen\":\""+Vehiculos.get(x).pais_Origen+"\",\"precio_Vehiculo\":"+Vehiculos.get(x).precio_Vehiculo+"}";
+                    if(x!=Vehiculos.size()-1){
+                        CadenaVehiculos+=",";
+                    }
+                }
+                CadenaVehiculos+="]";
+                JsonNode parsedJson = mapper.readTree(CadenaVehiculos); 
+                ArrayNode outerArray = mapper.createArrayNode();
+                //ObjectNode outerObject = mapper.createObjectNode(); //the object with the "data" array
+                ((ObjectNode) rootNode).putPOJO("vehiculos",parsedJson); 
+                //outerArray.add(outerObject);
+
+                //((ObjectNode) rootNode).putArray("vehiculos", CadenaVehiculos);
+                ((ObjectNode) rootNode).put("status", 0);
+                ((ObjectNode) rootNode).put("descripcion", "Exitoso");
+            }
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+        
     }
 }

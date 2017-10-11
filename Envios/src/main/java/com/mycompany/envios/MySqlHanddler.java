@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -117,6 +119,23 @@ public class MySqlHanddler {
             retorno=1;
         }catch(Exception e){
             retorno=0; //error
+        }
+        return retorno;
+    }
+    public List<Vehiculo> CargarVehiculo(){
+        List<Vehiculo> retorno=new ArrayList<Vehiculo>();
+        try{
+            Coneccion=DriverManager.getConnection(CadenaConeccion,"Usuario","1234");
+            Statement stmt=Coneccion.createStatement();  
+            ResultSet rs=stmt.executeQuery("select vehiculo_Existente.dbid,marca.nombre, linea.nombre, anio, pais.nombre, precio_Base from vehiculo_Existente inner join vehiculo on vehiculo_Existente.vehiculo=vehiculo.dbid inner join linea on vehiculo.linea=linea.dbid inner join marca on marca.dbid=linea.marca inner join pais on vehiculo_Existente.pais=pais.dbid");
+            Vehiculo vehiculo=null;
+            while(rs.next()){
+                vehiculo=new Vehiculo(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getDouble(6));
+                retorno.add(vehiculo);
+            }
+                //retorno=rs.getDouble(1);
+            Coneccion.close();  
+        }catch(Exception e){
         }
         return retorno;
     }
