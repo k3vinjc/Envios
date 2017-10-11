@@ -92,6 +92,55 @@ public class Envios {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
         }
     }
+    
+    @WebMethod(operationName = "obtener_Datos_Vehiculo")
+    public String obtener_Datos_Vehiculo(@WebParam(name = "id_Vehiculo") int id_Vehiculo) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.createObjectNode();
+        DecimalFormat df = new DecimalFormat("#.00"); 
+        if(id_Vehiculo>=0){
+            MySqlHanddler MSQ=new MySqlHanddler();
+            if(MSQ.Conectar()==0 ){
+                ((ObjectNode) rootNode).put("marca", "");
+                ((ObjectNode) rootNode).put("linea", "");
+                ((ObjectNode) rootNode).put("modelo", "");
+                ((ObjectNode) rootNode).put("pais_Origen", "");
+                ((ObjectNode) rootNode).put("precio_Vehiculo", 0.0);
+                ((ObjectNode) rootNode).put("status", 1);
+                ((ObjectNode) rootNode).put("descripcion", "No se pudo conectar a la base de datos");
+            }else{
+                if(MSQ.Existeid(new Vehiculo(id_Vehiculo))==0){
+                    ((ObjectNode) rootNode).put("marca", "");
+                    ((ObjectNode) rootNode).put("linea", "");
+                    ((ObjectNode) rootNode).put("modelo", "");
+                    ((ObjectNode) rootNode).put("pais_Origen", "");
+                    ((ObjectNode) rootNode).put("precio_Vehiculo", 0.0);
+                    ((ObjectNode) rootNode).put("status", 1);
+                    ((ObjectNode) rootNode).put("descripcion", "No existe el id del vehiculo");
+                }else{
+                    Vehiculo vehiculo=MSQ.CargarVehiculoId(id_Vehiculo);
+                    ((ObjectNode) rootNode).put("marca", vehiculo.marca);
+                    ((ObjectNode) rootNode).put("linea", vehiculo.linea);
+                    ((ObjectNode) rootNode).put("modelo", vehiculo.modelo);
+                    ((ObjectNode) rootNode).put("pais_Origen", vehiculo.pais_Origen);
+                    ((ObjectNode) rootNode).put("precio_Vehiculo", Double.parseDouble(df.format(vehiculo.precio_Vehiculo)));
+                    ((ObjectNode) rootNode).put("status", 0);
+                    ((ObjectNode) rootNode).put("descripcion", "Exitoso");
+                }
+            }
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+        }else{
+            ((ObjectNode) rootNode).put("marca", "");
+            ((ObjectNode) rootNode).put("linea", "");
+            ((ObjectNode) rootNode).put("modelo", "");
+            ((ObjectNode) rootNode).put("pais_Origen", "");
+            ((ObjectNode) rootNode).put("precio_Vehiculo", 0.0);
+            ((ObjectNode) rootNode).put("status", 1);
+            ((ObjectNode) rootNode).put("descripcion", "Los parametros son incorrectos");
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+        }
+    }
+    
     @WebMethod(operationName = "cargar_Vehiculos")
     public String cargar_Vehiculos() throws JsonProcessingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +155,7 @@ public class Envios {
                 List<Vehiculo> Vehiculos=MSQ.CargarVehiculo();
                 String CadenaVehiculos="[";
                 for(int x=0;x<Vehiculos.size();x++){
-                    CadenaVehiculos+="{\"id_Vehiculo\":"+Vehiculos.get(x).getid()+",\"marca\":\""+Vehiculos.get(x).marca+"\", \"linea\":\""+Vehiculos.get(x).linea+"\",\"modelo\":"+Vehiculos.get(x).modelo+", \"pais_Origen\":\""+Vehiculos.get(x).pais_Origen+"\",\"precio_Vehiculo\":"+Vehiculos.get(x).precio_Vehiculo+"}";
+                    CadenaVehiculos+="{\"id_Vehiculo\":"+Vehiculos.get(x).getid()+",\"marca\":\""+Vehiculos.get(x).marca+"\", \"linea\":\""+Vehiculos.get(x).linea+"\",\"modelo\":"+Vehiculos.get(x).modelo+", \"pais_Origen\":\""+Vehiculos.get(x).pais_Origen+"\",\"precio_Vehiculo\":"+df.format(Vehiculos.get(x).precio_Vehiculo)+"}";
                     if(x!=Vehiculos.size()-1){
                         CadenaVehiculos+=",";
                     }
